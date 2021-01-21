@@ -118,7 +118,8 @@
       </van-tabs>
     </div>
 
-    <van-submit-bar button-text="立即报名" @submit="onSubmit" />
+    <van-submit-bar v-if="detileInfo.is_buy == 0" button-text="立即报名" @submit="onSubmit" />
+    <van-submit-bar v-else button-text="立即学习" @submit="onSubmit2" />
     <!-- 分享 -->
     <van-overlay :show="show1" @click="unshow">
       <div class="wrapper" @click="unshow">
@@ -225,9 +226,7 @@ export default {
       // console.log(res)
       this.courseTitle[0].course_details = res.data.info.course_details;
       this.courseTitle[1].title = res.data.info.title;
-      console.log()
       this.detileInfo = res.data.info;
-      console.log(this.detileInfo)
       // console.log(res);
       // console.log(this.courseTitle);
     },
@@ -252,11 +251,18 @@ export default {
     // 立即报名
     async onSubmit() {
       let res = await shopInfo(this.detailsData.course_type);
-      console.log(res);
+      let obj = {
+        course_type : this.detailsData.course_type,
+        id : this.detailsData.id
+      }
+      console.log(obj)
       this.$router.push({
         path: "/order",
-        query: { res, courseTitle: this.courseTitle },
+        query: { res, courseTitle: this.courseTitle ,obj},
       });
+    },
+    onSubmit2() {
+      this.$router.push("/myFeature")
     },
     share() {
       // console.log('分享')

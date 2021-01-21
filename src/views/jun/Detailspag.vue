@@ -17,7 +17,6 @@ props:{},
     };
   },
 mounted(){
-    console.log(this.$route.query)
     this.arr=this.$route.query.item3
 },
 components: {

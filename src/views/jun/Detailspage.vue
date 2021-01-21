@@ -3,7 +3,7 @@
     <!-- 首页详情页 -->
     <div class="blue">
       <div style="font-size:0.4rem;padding-top:0.2rem;">
-        <span style="color:white;padding-left:0.4rem;" @click="$router.go(-1)"><</span>
+        <span style="color:white;padding-left:0.4rem;" @click="$router.go(-1)">&lt;</span>
         <span style="color:white;padding-left:2.2rem;">讲师详情</span>
       </div>
     </div>
@@ -81,7 +81,6 @@ export default {
   mounted() {
     this.id = this.$route.query.id.teacher_id;
     this.arr = this.$route.query.id;
-    console.log(this.arr);
     this.falg = "false";
     if (this.$route.query.id == "[object MouseEvent]") {
       this.falg = "true";
@@ -99,9 +98,7 @@ export default {
   methods: {
     guanzhu() {
       // this.gz = 0;
-      console.log(this.id);
       indexgz(this.id).then(res => {
-        console.log(res);
         this.gz = res.data.flag;
         // console.log(this.gz)
         if(this.gz==2){

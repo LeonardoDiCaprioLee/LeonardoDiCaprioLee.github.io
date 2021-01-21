@@ -133,7 +133,6 @@ export default {
   methods: {
     // 跳转路由
     jump_router(item) {
-      console.log(item);
       if (this.$store.state.token != "") {
         this.$router.push({ path: "/Detailspage", query: { id: item } });
         this.show = false;
@@ -156,9 +155,7 @@ export default {
     signout() {
       setTimeout(() => {
         var token = localStorage.getItem("token");
-        console.log(token);
         localStorage.removeItem("token");
-        console.log("清除token");
         this.log();
       }, 3000000);
     },

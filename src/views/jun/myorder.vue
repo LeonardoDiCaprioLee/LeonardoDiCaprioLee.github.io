@@ -89,9 +89,7 @@ export default {
     // http://120.53.31.103:84/api/app/myOrder
     // 获取全部订单
     getMyorder().then(res => {
-      console.log(res);
       this.arr = res.data.list;
-      console.log(this.arr);
     });
   },
   components: {},
@@ -122,37 +120,28 @@ export default {
   },
   watch:{
     active(e){
-      console.log(e)
       if(e==0){
         this.order={ page: 1, limit: 10, order_status: 0, order_type: "2" }
          getMyorder(this.order).then(res => {
-      console.log(res);
       this.arr = res.data.list;
-      console.log(this.arr);
     });
       }
       if(e==1){
         this.order={page: 1, limit: 10, order_status: 1, pay_status: 1, order_type: "2"}
          getMyorder(this.order).then(res => {
-      console.log(res);
       this.arr = res.data.list;
-      console.log(this.arr);
     });
       }
       if(e==2){
         this.order={page: 1, limit: 10, order_status: 2, order_type: "2"}
          getMyorder(this.order).then(res => {
-      console.log(res);
       this.arr = res.data.list;
-      console.log(this.arr);
     });
       }
       if(e==3){
         this.order={page: 1, limit: 10, order_status: 3, order_type: "2"}
          getMyorder(this.order).then(res => {
-      console.log(res);
       this.arr = res.data.list;
-      console.log(this.arr);
     });
       }
     }

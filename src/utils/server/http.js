@@ -15,7 +15,10 @@ const server = axios.create({
 
 // 请求拦截
 server.interceptors.request.use(config => {
-    store.state.loding=true
+    // console.log(config.url.split("?")[0])
+    if(config.url.split("?")[0] !== "/api/app/courseBasis"){
+        store.state.loding=true
+    }
     // console.log(store.state.loding)
     // console.log()
     config.headers = {
