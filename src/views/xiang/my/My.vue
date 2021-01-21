@@ -159,13 +159,13 @@ export default {
         }
     },
     // 我的页面鉴权
-    beforeRouteEnter (to, from, next) {
-        if(localStorage.getItem('token')){
-            next()
-        }else {
-            next('/login')
-        }
-    }
+    // beforeRouteEnter (to, from, next) {
+    //     if(localStorage.getItem('token')){
+    //         next()
+    //     }else {
+    //         next('/login')
+    //     }
+    // }
 }
 </script>
 

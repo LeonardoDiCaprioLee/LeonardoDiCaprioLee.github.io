@@ -54,8 +54,23 @@ const routes = [
   ...whj
 ]
 
+
+console.log(routes);
 const router = new VueRouter({
   routes
 })
 
+router.beforeEach((to, from, next) => {
+  if(localStorage.getItem('token')) {
+    to.meta.rou == 2
+    next()
+  } else {
+    to.meta.rou == 1
+    if(to.meta.rou == 1) {
+      next('/login')
+    } else {
+      next()
+    }
+  }
+})
 export default router
