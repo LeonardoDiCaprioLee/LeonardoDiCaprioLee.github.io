@@ -66,7 +66,6 @@ export default {
     },
     mounted() {
          BindingNumber(this.obj).then(res=>{
-                console.log(res);
             })
     },
     methods: {
@@ -75,7 +74,6 @@ export default {
         },
         test(){
             BindingNumber(this.obj).then(res=>{
-                console.log(res);
             })
             // if(this.tel != '') {
             //     this.show = false;

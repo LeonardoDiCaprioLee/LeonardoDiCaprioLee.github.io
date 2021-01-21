@@ -30,7 +30,6 @@ export default {
             limit:10,
             type:1
         }).then(res=>{
-            console.log(res);
             this.collectList = res.list
         })
     },

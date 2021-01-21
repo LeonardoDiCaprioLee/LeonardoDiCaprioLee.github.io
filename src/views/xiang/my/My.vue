@@ -128,16 +128,12 @@ export default {
             num:0
         };
     },
-    created() {
-        Personal().then(res=>{
-            this.personal = res
-        })
-        myStudy().then(res=>{
-            console.log(res);
-             res.data.typeNum.forEach(item=>{
-                 this.num +=item.num
-            })
-        })
+    async created() {
+        // 个人信息
+        let user = await Personal()
+            this.personal = user
+        let {data} = await myStudy()
+            this.num = data.courseList.length
     },
     methods: {
         // 跳转优惠券页面
@@ -158,14 +154,6 @@ export default {
             this.$router.push({path:'/collect'})
         }
     },
-    // 我的页面鉴权
-    // beforeRouteEnter (to, from, next) {
-    //     if(localStorage.getItem('token')){
-    //         next()
-    //     }else {
-    //         next('/login')
-    //     }
-    // }
 }
 </script>
 

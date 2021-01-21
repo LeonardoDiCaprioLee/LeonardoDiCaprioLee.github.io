@@ -32,7 +32,6 @@ export default {
   },
   async created() {
     let data = await myStudy()
-    console.log(data);
     if(data.code==200) {
       this.myStudyTitle = data.data.typeNum
       this.myStudyList2 = data.data.courseList
@@ -66,9 +65,7 @@ export default {
         }
       },
       myStudyListId(id) { // 课程id
-      console.log(id);
         myStudyCourse(id).then(async res=>{
-            console.log(res);
         })
       }
   },

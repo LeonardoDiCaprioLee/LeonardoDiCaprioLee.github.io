@@ -35,7 +35,6 @@ const collect = async function(id){
 }
 // 取消收藏
 const cancelCollect = async function(id){
-    console.log(id)
     let { data } = await server.post(`/api/app/collect/cancel/227/1`,{ collect_id:id });
     return Promise.resolve(data)
 }
@@ -86,7 +85,6 @@ const getBanners = async function () {
     //     }
     // ]
     var { data } = await server.get('/api/app/banner')
-    // console.log(data)
     // 因为请求不到数据自己模拟数据
     return data
 }
@@ -96,14 +94,12 @@ const getBanners = async function () {
 // 获取首页列表
 const get_indexlist=async function(){
     var {data} = await server.get('/api/app/recommend/appIndex');
-    // console.log(data)
     return data
 }
 // 获取首页列表
 
 // const getCurrData = async () => {
 //     const data =  await server.get('https://new-api.meiqia.com/visit/get_base_config?ent_id=149768');
-//     console.log(data)
 // }
 
 
@@ -143,7 +139,6 @@ const resetPersonal = async function(i) {
 // 头像修改接口
 const photo = async function(i) {
     var data = await server.post('/api/app/public/img',i)
-    console.log(data);
     return Promise.resolve(data);
 }
 // 选择年纪和学科得数据
@@ -160,7 +155,6 @@ const city = async function() {
 // 首页列表数据详情
 const indexdettails =async function(id){
     var {data}=await server.get(`/api/app/teacher/${id}`)
-    console.log(data)
     return data
 }
 
@@ -173,7 +167,6 @@ const Collect = async function(obj) {
 // index关注
 const indexgz= async function(id){
     var {data}=await server.get(`/api/app/teacher/collect/${id}`)
-    console.log(id)
     return data
 }
 
@@ -184,9 +177,7 @@ const myStudy= async function(){
 }
 // 立即学习接口
 const myStudyCourse= async function(id){
-    console.log(id);
     var {data}=await server.get(`/api/app/myStudy/course/${id}`)
-    console.log(data);
     return data
 }
 

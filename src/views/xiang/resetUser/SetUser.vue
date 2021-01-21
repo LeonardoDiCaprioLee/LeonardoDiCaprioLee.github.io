@@ -91,7 +91,7 @@
     <!-- <van-cell v-model="photoShow" value="1" position="bottom" :style="{ height: '30%' }" > -->
     <!-- 年级选择框 -->
     <van-popup v-model="gradeShow" position="bottom" >
-      <van-area title="标题" :area-list="grade" 
+      <van-area :title="name" :area-list="grade" 
         @confirm="addGrade" :columns-num="1" item-height="0.5rem"/>
     </van-popup>
     <!-- 学科选择 -->
@@ -154,6 +154,7 @@ export default {
       },
       // 年级隐藏显示
       gradeShow:false,
+      name:'',
       // 学科
       contentList: [
         { 
@@ -211,7 +212,6 @@ export default {
     myUser() {
     // 个人信息数据接口
       Personal().then(res=>{
-        console.log(res);
         this.obj  = res
       })
     },
@@ -267,11 +267,10 @@ export default {
     },
     // 相册中选择相片
     gotoPhoto() {
-      console.log(this);
       this.$el.querySelector('.hiddenInput').click()
     },
     // 修改头像
-    handleFile() {
+    handleFile(e) {
       this.photoShow = false
       // 将本地图片转换为线上图片
       let formDate = new FormData()
@@ -287,7 +286,8 @@ export default {
       this.gradeShow = true
     },
     addGrade(val) {
-      console.log(val);
+      this.name = val.name
+      this.gradeShow = false
     },
     // 学科确认
     ok() {

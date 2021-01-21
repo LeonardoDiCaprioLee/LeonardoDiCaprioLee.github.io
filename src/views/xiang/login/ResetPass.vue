@@ -30,7 +30,6 @@ export default {
     },
     mounted() {
         ResetPasss().then(res=>{
-            console.log(res);
         })
     },
     methods: {
