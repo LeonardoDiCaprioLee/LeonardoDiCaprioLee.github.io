@@ -50,7 +50,6 @@ export default {
   },
   methods: {
     goDetiles(item){
-      // console.log(item)
       this.$router.push({path : "/details",query : item})
     }
   },

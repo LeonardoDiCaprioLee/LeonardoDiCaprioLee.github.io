@@ -78,6 +78,7 @@
 
 <script>
 import eventBus from "./eventBus"
+import { courseClassify,courseBasis } from "../../utils/api/index"
 export default {
   data() {
     return {
@@ -183,48 +184,7 @@ export default {
         },
       ],
       // 筛选数据
-      screenData: [
-        {
-          name: "全部",
-          screen_flag: false,
-        },
-        {
-          name: "大班课",
-          screen_flag: false,
-        },
-        {
-          name: "小班课",
-          screen_flag: false,
-        },
-        {
-          name: "公开课",
-          screen_flag: false,
-        },
-        {
-          name: "点播课",
-          screen_flag: false,
-        },
-        {
-          name: "面授课",
-          screen_flag: false,
-        },
-        {
-          name: "音频课",
-          screen_flag: false,
-        },
-        {
-          name: "系统课",
-          screen_flag: false,
-        },
-        {
-          name: "图文课",
-          screen_flag: false,
-        },
-        {
-          name: "会员课",
-          screen_flag: false,
-        },
-      ],
+      screenData: [],
       // 选择分类的数组
       chooseGrades : [],
     };
@@ -232,12 +192,10 @@ export default {
   methods: {
     // tabs点击触发事件
     tabClick(name, title) {
-      // console.log(name);  // 打印name为绑定的那么值即数组中的activeName
       // 获取到对应的下标
       const index = this.selectData.findIndex((item) => {
         return item.activeName == name;
       });
-      // console.log(index)
       // 将数组中对应下标数组中的flag取反
       this.selectData[index].flag = !this.selectData[index].flag;
       for(let i = 0; i < this.selectData.length; i++){
@@ -260,7 +218,6 @@ export default {
         this.chooseGrades.shift();
       }
       this.chooseGrades.push(items.classGrades)
-      console.log(this.chooseGrades)
       // 排他将其余的flag设置为false
       obj.grades.forEach((item) => {
         item.flag = false;
@@ -281,13 +238,15 @@ export default {
       this.activeName = "";
     },
     // 筛选数据选择
-    chooseScreen(item){
+    async chooseScreen(item){
       // 排他
       this.screenData.forEach(item => {
         item.screen_flag = false;
       })
       // 当前设置为true
       item.screen_flag = true;
+      let res = await courseBasis(`course_type=${item.id}`);
+      this.$store.commit("currs",res.data.list)
       // 隐藏筛选框
       this.selectData[2].flag = false;
       this.activeName = "";
@@ -320,7 +279,10 @@ export default {
   filters: {},
   components: {},
   directives: {},
-  mounted() {},
+  async mounted() {
+    let res = await courseClassify();
+    this.screenData = res.data.appCourseType;
+  },
 };
 </script>
 

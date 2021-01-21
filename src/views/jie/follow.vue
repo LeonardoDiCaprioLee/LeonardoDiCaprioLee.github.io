@@ -47,7 +47,6 @@ this.$router.push({ path: "/Detailspage", query: { id: item } });
       type:2
     }).then(res=>{
       this.list = res.list
-      console.log(res);
     })
   },
 };

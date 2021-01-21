@@ -15,13 +15,12 @@ const server = axios.create({
 
 // 请求拦截
 server.interceptors.request.use(config => {
-    store.state.loding=true
-    // console.log(store.state.loding)
-    // console.log()
+    if(config.url.split("?")[0] !== "/api/app/courseBasis"){
+        store.state.loding=true
+    }
     config.headers = {
         deviceType: "H5"
     }
-    console.log(config);
     let ID = Guid.NewGuid().ToString('D')
     window.sessionStorage.setItem('DeviceID',ID)
     if (localStorage.getItem('token')) {
@@ -41,7 +40,6 @@ server.interceptors.request.use(config => {
 server.interceptors.response.use(res => {
 
     store.state.loding=false;
-    // console.log(store.state.loding)
 
     if(res.data.msg == '登录超时，请重新登录'){
         localStorage.setItem('token','')
@@ -57,7 +55,6 @@ server.interceptors.response.use(res => {
     }
 }, err => {
     // 只是作为参考的例子 具体情况要看服务器真实的返回数据
-    // console.log(err);
 
     switch (err.code) {
         case 500: console.log('服务器错误'); break;

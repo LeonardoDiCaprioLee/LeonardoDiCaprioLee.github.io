@@ -118,7 +118,8 @@
       </van-tabs>
     </div>
 
-    <van-submit-bar button-text="立即报名" @submit="onSubmit" />
+    <van-submit-bar v-if="detileInfo.is_buy == 0" button-text="立即报名" @submit="onSubmit" />
+    <van-submit-bar v-else button-text="立即学习" @submit="onSubmit2" />
     <!-- 分享 -->
     <van-overlay :show="show1" @click="unshow">
       <div class="wrapper" @click="unshow">
@@ -184,7 +185,6 @@ export default {
     //   立即报名方法
     enlist() {
       //   如果用户没有登录 那么进行提示
-      // console.log(!this.detailsData.has_buy)
       if (this.$store.state.token == "") {
         this.$toast.loading({
           message: "正在跳转登录页面...",
@@ -215,35 +215,26 @@ export default {
         return item.course_classify_id == this.$route.query.item;
       });
       this.detailsData = data[0];
-      // console.log(this.detailsData);
     },
     async courseInfoData() {
-      // console.log(this.detailsData.teachers_list[0].course_basis_id);
       let res = await courseInfo(
         this.detailsData.teachers_list[0].course_basis_id
       );
-      // console.log(res)
       this.courseTitle[0].course_details = res.data.info.course_details;
       this.courseTitle[1].title = res.data.info.title;
-      console.log()
       this.detileInfo = res.data.info;
-      console.log(this.detileInfo)
-      // console.log(res);
-      // console.log(this.courseTitle);
     },
     // 点击收藏按钮
     async clickCollection() {
       if (this.detileInfo.is_collect > 0) {
         // 取消收藏
         let res = await collectcancel(this.detileInfo.collect_id);
-        console.log(res)
         this.$toast.success("取消收藏成功");
        
       } else {
         let res = await collect(
           this.detailsData.teachers_list[0].course_basis_id
         );
-        console.log(res)
         if (res.code == 200) {
           this.$toast.success(res.msg);
         }
@@ -252,22 +243,24 @@ export default {
     // 立即报名
     async onSubmit() {
       let res = await shopInfo(this.detailsData.course_type);
-      console.log(res);
+      let obj = {
+        course_type : this.detailsData.course_type,
+        id : this.detailsData.id
+      }
       this.$router.push({
         path: "/order",
-        query: { res, courseTitle: this.courseTitle },
+        query: { res, courseTitle: this.courseTitle ,obj},
       });
     },
+    onSubmit2() {
+      this.$router.push("/myFeature")
+    },
     share() {
-      // console.log('分享')
-      // console.log(this.$router.history.current.fullPath)
       this.show1 = true;
       this.initQCode =
         "http://localhost:8080/#" + this.$router.history.current.fullPath;
-      // console.log(this.initQCode)
     },
     unshow() {
-      // console.log(this.show1)
       this.show1 = false;
     },
   },
@@ -279,8 +272,6 @@ export default {
     await this.detailsDatas();
     this.courseInfoData();
 
-    // console.log(this.$route.query)
-    // console.log(this.detailsData.teachers_list[0].teacher_name)
   },
   watch: {},
 };

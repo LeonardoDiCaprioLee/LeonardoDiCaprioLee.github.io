@@ -79,7 +79,6 @@ export default {
           "search",
           JSON.stringify(this.oldSearchArr)
         );
-        console.log(this.oldSearchArr);
         // 将vuex中的数据进行替换
         this.$store.commit("chooseGrades", [this.searchVal]);
         // 跳转路由

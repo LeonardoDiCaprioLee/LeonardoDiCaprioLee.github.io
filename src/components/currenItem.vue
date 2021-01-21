@@ -1,36 +1,51 @@
 <template>
-  <div class="cards" @scroll="scroll">
-    <van-card
-      v-for="(item, index) in currData"
-      :key="index"
-      num="免费"
-      price="2.00"
-      :title="item.title"
-      @click="
-        $router.push({
-          path: '/details',
-          query: { item: item.course_classify_id },
-        })
-      "
+<div>
+<div class="cards" @scroll="scroll">
+    <van-list
+      v-model="loading"
+      :finished="finished"
+      finished-text="没有更多了"
+      @load="onLoad"
     >
-      <template #price> {{ item.brows_num }}人已报名 </template>
-      <template #num>
-        <img
-          style="width: 1.2rem; position: absolute; top: 0.2rem; right: 0.2rem"
-          src="@/assets/img/jie/1611047474391.jpg"
-          alt=""
-          v-if="item.has_buy == 1"
-        />
-        <span style="color: green">免费</span>
-      </template>
-      <template #thumb>
-        <img :src="item.cover_img" alt="" class="cover_img" />
-      </template>
-    </van-card>
-    <div class="search" v-show="this.show == true">
-      <p>没有关于{{$route.query.name}}的数据</p>
-    </div>
+      <van-card
+        v-for="(item, index) in $store.state.currs"
+        :key="index"
+        num="免费"
+        price="2.00"
+        :title="item.title"
+        @click="
+          $router.push({
+            path: '/details',
+            query: { item: item.course_classify_id },
+          })
+        "
+      >
+        <template #price> {{ item.brows_num }}人已报名 </template>
+        <template #num>
+          <img
+            style="
+              width: 1.2rem;
+              position: absolute;
+              top: 0.5rem;
+              right: 0.2rem;
+            "
+            src="@/assets/img/jie/1611047474391.jpg"
+            alt=""
+            v-if="item.has_buy == 1"
+          />
+          <span style="color: green">免费</span>
+        </template>
+        <template #thumb>
+          <img :src="item.cover_img" alt="" class="cover_img" />
+        </template>
+      </van-card>
+      <div class="search" v-show="this.show == true">
+        <p>没有关于{{ $route.query.name }}的数据</p>
+      </div>
+    </van-list>
   </div>
+</div>
+  
 </template>
 
 <script>
@@ -41,13 +56,51 @@ export default {
       currData: [],
       currData2: [],
       // 搜索数据
-      searchList:'',
-      show:false
+      searchList: "",
+      show: false,
+      loading: false,
+      finished: false,
+      list: [],
+      num : 5,
+      total : 0
     };
   },
   methods: {
     scroll() {
       console.log(1);
+    },
+    onLoad() {
+      setTimeout(() => {
+        let str = `page=1&limit=${this.num+=5}`
+        this.getCourse(str);
+        this.loading = false;
+
+        if(this.currData.length >= this.total){
+          this.finished = true;
+        }
+      }, 1000);
+    },
+    async getCourse(str = `page=1&limit=5`) {
+      let res = await courseBasis(str);
+      // console.log(res);
+      this.total = res.data.total;
+      this.searchList = this.$route.query.name;
+      this.$store.commit("currs",res.data.list)
+      this.currData = this.$store.state.currs;
+      this.currData2 = res.data.list;
+      if (this.searchList == "") {
+        this.currData = this.currData2;
+      }
+      if (this.searchList != undefined) {
+        this.currData = this.currData2.filter((res) => {
+          return res.title == this.searchList;
+        });
+        if (this.currData.length != 0) {
+          this.show = false;
+        } else {
+          this.show = true;
+        }
+      }
     },
   },
   computed: {},
@@ -55,24 +108,7 @@ export default {
   components: {},
   directives: {},
   async created() {
-    let res = await courseBasis();
-    console.log(res);
-    this.searchList = this.$route.query.name
-    this.currData = res.data.list;
-    this.currData2 = res.data.list;
-    if(this.searchList == '') {
-      this.currData = this.currData2  
-    }
-    if(this.searchList != undefined) {
-      this.currData = this.currData2.filter(res=>{
-          return res.title == this.searchList
-      })
-      if(this.currData.length!=0) {
-        this.show = false
-      } else {
-        this.show = true
-      }
-    }
+    this.getCourse();
   },
 };
 </script>
@@ -88,15 +124,15 @@ export default {
   width: 100%;
   height: 100%;
 }
-.search{
+.search {
   width: 3rem;
   height: 3rem;
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
   background-color: #fff;
-  p{
+  p {
     width: 100%;
     text-align: center;
     line-height: 3rem;

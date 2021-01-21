@@ -114,14 +114,12 @@ export default {
     // 获取首页轮播图banner
     getBanners().then(res => {
       this.banner = res.data;
-      // console.log(res);
     });
 
     // 获取list列表数据
     get_indexlist().then(res => {
       // 获取自己模拟的数据
       // this.arr = arr[0].data;
-      // console.log(res)
       this.arr = res.data;
     });
   },
@@ -133,7 +131,6 @@ export default {
   methods: {
     // 跳转路由
     jump_router(item) {
-      console.log(item);
       if (this.$store.state.token != "") {
         this.$router.push({ path: "/Detailspage", query: { id: item } });
         this.show = false;
@@ -156,9 +153,7 @@ export default {
     signout() {
       setTimeout(() => {
         var token = localStorage.getItem("token");
-        console.log(token);
         localStorage.removeItem("token");
-        console.log("清除token");
         this.log();
       }, 3000000);
     },

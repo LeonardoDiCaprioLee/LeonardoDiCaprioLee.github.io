@@ -19,8 +19,8 @@ const getMyorder =async function (params){
 }
 
 // 课程数据
-const courseBasis = async function(){
-    let { data } = await server.get('/api/app/courseBasis?page=1&limit=10&');
+const courseBasis = async function(str){
+    let { data } = await server.get(`/api/app/courseBasis?${str}`);
     return Promise.resolve(data)
 }
 // 详情数据
@@ -44,8 +44,8 @@ const shopInfo = async function(id){
     return Promise.resolve(data)
 }
 // 提交报名订单
-const downOrder = async function(id){
-    let { data } = await server.post(`/api/app/order/downOrder`,{shop_id: 193, type: 5, user_coupon_id: 0, address_id: "", product_number: 1});
+const downOrder = async function(obj){
+    let { data } = await server.post(`/api/app/order/downOrder`,{shop_id: obj.id, type: obj.course_type, user_coupon_id: 0, address_id: "", product_number: 1});
     return Promise.resolve(data)
 }
 // 取消收藏
@@ -57,6 +57,11 @@ const collectcancel = async function(id){
 // 获取课程大纲
 const courseChapter = async function(id){
     let { data } = await server.post(`http://120.53.31.103:84/api/app/courseChapter`,{id});
+    return Promise.resolve(data)
+}
+// 获取分类接口
+const courseClassify = async function(id){
+    let { data } = await server.get(`/api/app/courseClassify`);
     return Promise.resolve(data)
 }
 
@@ -208,5 +213,6 @@ export {
     courseChapter,
     collectcancel,
     myStudyCourse,
-    getMyorder
+    getMyorder,
+    courseClassify
 }

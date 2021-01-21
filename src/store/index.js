@@ -12,7 +12,8 @@ export default new Vuex.Store({
     teach:[],
     loding:false,
     user:{},
-    mobile_nikename:{}
+    mobile_nikename:{},
+    currs : [],
   },
   mutations: {
     out(state) { // 退出登录
@@ -39,6 +40,9 @@ export default new Vuex.Store({
       })
       console.log("执行了")
       state.teach.push(v)
+    },
+    currs(state,arr){
+      state.currs = arr;
     }
   },
   actions: {

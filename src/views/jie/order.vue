@@ -37,12 +37,14 @@ export default {
   data() {
     return {
       info: {},
+      obj : {},
     };
   },
   methods: {
       async onSubmit(){
-          let res = await downOrder();
-          console.log(res)
+          let res = await downOrder(this.obj);
+          this.$toast.success(res.msg);
+          this.$router.go(-1)
       }
   },
   computed: {},
@@ -50,29 +52,8 @@ export default {
   components: {},
   directives: {},
   mounted() {
-    this.info = {
-      checked_coupon: false,
-      coupon_id: 0,
-      discounted_price: 0,
-      full_reduction: 0,
-      name: "",
-      __proto__: Object,
-      course_type: 3,
-      end_play: 1611244800,
-      has_coupon: 0,
-      is_materials: 0,
-      order_price: 0,
-      price: 0,
-      sales_num: 1,
-      section_num: 1,
-      start_play: 1611158400,
-      stock: 312,
-      teacher_name: "小张",
-      title: "node.js",
-    };
-    // console.log(this.$route.query.res)
-    // this.info = this.$route.query.res.data.info;
-    console.log(this.info);
+    this.info = this.$route.query.res.data.info;
+    this.obj = this.$route.query.obj;
   },
 };
 </script>
